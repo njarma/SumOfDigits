@@ -5,6 +5,11 @@ namespace SumOfDigits.Classes
 {
     public class Number: INumber
     {
+        public readonly IValidation _validation;
+        public Number(IValidation validation)
+        {
+            _validation = validation;
+        }
         public double Value { get; private set; }
 
         public double AuxValue { get; private set; } = 0;
@@ -51,17 +56,10 @@ namespace SumOfDigits.Classes
 
         public bool ValidInput(string value)
         {
-            if (String.IsNullOrEmpty(value))
-            {
-                Console.WriteLine("You have to set a valid number");
-                return false;
-            }
-            if (Convert.ToInt64(value) < 0)
-            {
-                Console.WriteLine("Number have to be positive");
-                return false;
-            }
-            return true;
+            _validation.Set(new NotNullOrEmptyStrategy());
+            _validation.Set(new PositiveInputStrategy());
+            
+            return _validation.Validate(value);
         }
 
         public int DigitalRoot(double newValue = 0)

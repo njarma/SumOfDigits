@@ -12,6 +12,7 @@ namespace SumOfDigits
             //setup DI
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<INumber, Number>()
+                .AddSingleton<IValidation, Validation>()
                 .BuildServiceProvider();
 
             var number = serviceProvider.GetService<INumber>();
